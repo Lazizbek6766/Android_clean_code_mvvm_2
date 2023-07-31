@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DataModule {
 
+    //hatd
     @Provides
     @Singleton
     fun  providePaprikaApi(): MyApi{
