@@ -1,7 +1,9 @@
 package com.example.androidcleancodemvvm2.data.di
 
 import com.example.androidcleancodemvvm2.data.api.MyApi
+import com.example.androidcleancodemvvm2.data.repository.ProductRepositoryImpl
 import com.example.androidcleancodemvvm2.domain.common.Constants.BASE_URL
+import com.example.androidcleancodemvvm2.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DataModule {
 
-    //hatd
     @Provides
     @Singleton
     fun  providePaprikaApi(): MyApi{
@@ -25,5 +26,9 @@ class DataModule {
             .create(MyApi::class.java)
     }
 
-
+    @Provides
+    @Singleton
+    fun provideProductRepository(api: MyApi):ProductRepository{
+        return ProductRepositoryImpl(api)
+    }
 }
