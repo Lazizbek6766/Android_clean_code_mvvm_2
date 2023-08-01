@@ -32,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    viewBinding{
+        enabled true
+    }
 }
 
 dependencies {
@@ -56,6 +59,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     //dagger
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt "com.google.dagger:hilt-compiler:2.38.1"
+    implementation "com.google.dagger:hilt-android:2.47"
+    kapt "com.google.dagger:hilt-compiler:2.47"
+
 }
