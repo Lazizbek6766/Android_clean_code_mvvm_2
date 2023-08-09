@@ -18,27 +18,29 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getProductUserCase: GetProductUserCase,
-):ViewModel(){
+) : ViewModel() {
     private val _state = MutableLiveData<ProductListState>()
     val state: LiveData<ProductListState> = _state
+
     init {
         getProduct()
     }
 
     private fun getProduct() {
-        getProductUserCase().onEach {  result->
-            when(result){
-                is Resource.Success ->{
+        getProductUserCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
                     _state.value = ProductListState(product = result.data ?: emptyList())
                 }
+
                 is Resource.Error -> {
                     _state.value = ProductListState(error = result.message ?: "error")
                 }
-                is Resource.Loading ->{
+
+                is Resource.Loading -> {
                     _state.value = ProductListState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
     }
-
 }

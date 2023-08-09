@@ -1,37 +1,35 @@
 package com.example.androidcleancodemvvm2.data.repository
 
 import com.example.androidcleancodemvvm2.data.api.MyApi
+import com.example.androidcleancodemvvm2.data.extensions.ApiException
 import com.example.androidcleancodemvvm2.data.extensions.toProduct
-import com.example.androidcleancodemvvm2.data.model.ProductModelItem
-import com.example.androidcleancodemvvm2.data.model.Rating
-import com.example.androidcleancodemvvm2.domain.common.Resource
+import com.example.androidcleancodemvvm2.data.model.ProductReq
+import com.example.androidcleancodemvvm2.data.model.ProductRes
 import com.example.androidcleancodemvvm2.domain.model.ProductItem
 import com.example.androidcleancodemvvm2.domain.repository.ProductRepository
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
     private val api: MyApi
-):ProductRepository {
+) : ProductRepository {
     override suspend fun getProducts(): List<ProductItem> {
         return api.getProducts().map { it.toProduct() }
     }
 
-    override suspend fun addProduct(product: ProductItem): Resource<Unit> {
-        return try {
-            val productModelItem = ProductModelItem(
-                category = product.category,
-                description = product.description,
-                id = product.id,
-                image = product.image,
-                price = product.price,
-                rating = Rating(rate = product.rating.rate, count = product.rating.count),
-                title = product.title
+    override suspend fun createProduct(product: ProductReq): ProductRes {
+        val response = api.creatProduct(product)
+        if (response.isSuccessful) {
+            val createdProduct = response.body()
+            return ProductRes(
+                id = createdProduct!!.id,
+                title = createdProduct.title,
+                price = createdProduct.price,
+                description = createdProduct.description,
+                image = createdProduct.image,
+                category = createdProduct.category
             )
-            api.addProduct(productModelItem)
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error("Failed to add product: ${e.message}")
+        } else {
+            throw ApiException("Failed to create product")
         }
     }
-
 }
