@@ -2,6 +2,7 @@ package com.example.androidcleancodemvvm2.data.extensions
 
 import com.example.androidcleancodemvvm2.data.model.ProductModelItem
 import com.example.androidcleancodemvvm2.data.model.ProductReq
+import com.example.androidcleancodemvvm2.data.model.ProductRes
 import com.example.androidcleancodemvvm2.domain.model.ProductItem
 
 fun ProductModelItem.toProduct():ProductItem{
@@ -13,6 +14,5 @@ fun ProductModelItem.toProduct():ProductItem{
         price = price,
         rating = rating,
         title = title
-
     )
 }

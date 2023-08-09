@@ -26,7 +26,7 @@ class ProductRepositoryImpl @Inject constructor(
                 price = createdProduct.price,
                 description = createdProduct.description,
                 image = createdProduct.image,
-                category = createdProduct.category
+                category = createdProduct.category,
             )
         } else {
             throw ApiException("Failed to create product")
